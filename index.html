@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Maternité - Parcours des parents</title>
+</head>
+
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="nav-container">
+                <a href="#accueil" class="nav-link">ACCUEIL</a>
+                <div class="urgence-contact">
+                    <a href="#urgence" class="nav-link urgent">EN CAS D'URGENCE</a>
+                    <a href="#contact" class="nav-link urgent">CONTACT</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Section Hero - Toujours visible -->
+        <section id="hero-section" class="hero">
+            <div class="container">
+                <h1>Le parcours des parents</h1>
+                <p class="subtitle">De la grossesse à la sortie de l'hôpital</p>
+                <div class="hero-nav">
+                    <div class="hero-nav-links grossesse">
+                        <img src="images/grossesse.jpg" alt="La Grossesse">
+                        <a href="#grossesse" class="hero-link">La Grossesse</a>
+                    </div>
+                    <div class="hero-nav-links accouchement">
+                        <img src="images/accouchement.png" alt="L'accouchement">
+                        <a href="#accouchement" class="hero-link">L'accouchement</a>
+                    </div>
+                    <div class="hero-nav-links apres-accouchement">
+                        <img src="images/post_accouchement.png" alt="Apres L'accouchement">
+                        <a href="#apres-accouchement" class="hero-link">Apres L'accouchement</a>
+                    </div>
+                    <div class="hero-nav-links sortie-hopital">
+                        <img src="images/post_hopital.png" alt="Sorti d'hôpital">
+                        <a href="#sortie-hopital" class="hero-link">Sorti d'hôpital</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Accueil - Contenu par défaut -->
+        <section id="accueil" class="section page-content">
+            <div class="container">
+                <div class="welcome-message">
+                    <p>Bienvenue ! Sélectionnez une catégorie ci-dessus pour découvrir les informations qui vous
+                        concernent.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section La Grossesse -->
+        <section id="grossesse" class="section page-content" style="display: none;">
+            <div class="container">
+                <div class="content-wrapper">
+                    <h2 class="section-title-with-dot">
+                        <span class="title-dot"></span>
+                        La Grossesse
+                    </h2>
+                    <div class="sommaire-box">
+                        <h3 class="sommaire-title">Sommaire</h3>
+                        <ul class="sommaire-list">
+                            <li><a href="#inscription-maternite-content" class="sommaire-link">Inscription à la
+                                    maternité</a></li>
+                            <li><a href="#votre-grossesse-content" class="sommaire-link">Votre grossesse</a></li>
+                            <li><a href="#role-co-parent-content" class="sommaire-link">Rôle co-parent</a></li>
+                            <li><a href="#preparation-naissance-content" class="sommaire-link">La préparation à la
+                                    naissance</a></li>
+                        </ul>
+                    </div>
+                    <div class="section-content">
+                        <div id="inscription-maternite-content" class="content-item">
+                            <h3>Inscription à la maternité</h3>
+                            <p>There are many variations of passages of Lorem Ipsum available, but the majority have
+                                suffered alteration in some form, by injected humour, or randomised words which don't
+                                look even slightly believable. If you are going to use a passage of Lorem Ipsum, you
+                                need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section L'accouchement -->
+        <section id="accouchement" class="section page-content" style="display: none;">
+            <div class="container">
+                <div class="content-wrapper">
+                    <h2 class="section-title-with-dot">
+                        <span class="title-dot"></span>
+                        L'accouchement
+                    </h2>
+                    <div class="sommaire-box">
+                        <h3 class="sommaire-title">Sommaire</h3>
+                        <ul class="sommaire-list">
+                            <li><a href="#pre-travail-content" class="sommaire-link">Pré-travail</a></li>
+                            <li><a href="#en-salle-content" class="sommaire-link">En salle</a></li>
+                            <li><a href="#cesarienne-content" class="sommaire-link">cas de césarienne</a></li>
+                            <li><a href="#avec-peridural-content" class="sommaire-link">Avec péridural</a></li>
+                            <li><a href="#sans-peridural-content" class="sommaire-link">Sans péridural</a></li>
+                        </ul>
+                    </div>
+                    <div class="section-content">
+                        <div id="pre-travail-content" class="content-item">
+                            <h3>Pré-travail</h3>
+                            <p>Les signes avant-coureurs et ce qu'il faut savoir avant le début du travail.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Après l'accouchement -->
+        <section id="apres-accouchement" class="section page-content" style="display: none;">
+            <div class="container">
+                <div class="content-wrapper">
+                    <h2 class="section-title-with-dot">
+                        <span class="title-dot"></span>
+                        Apres L'accouchement
+                    </h2>
+                    <div class="sommaire-box">
+                        <h3 class="sommaire-title">Sommaire</h3>
+                        <ul class="sommaire-list">
+                            <li><a href="#le-sejour-content" class="sommaire-link">Le sejour</a></li>
+                            <li><a href="#alimentation-bebe-content" class="sommaire-link">alimentation du bébé</a></li>
+                            <li><a href="#retour-domicile-content" class="sommaire-link">Retours au domicile</a></li>
+                            <li><a href="#suivre-gyneco-content" class="sommaire-link">Suivre un gynéco</a></li>
+                        </ul>
+                    </div>
+                    <div class="section-content">
+                        <div id="le-sejour-content" class="content-item">
+                            <h3>Le sejour</h3>
+                            <p>Le séjour à la maternité : durée, chambres et services disponibles.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Sortie d'hôpital -->
+        <section id="sortie-hopital" class="section page-content" style="display: none;">
+            <div class="container">
+                <div class="content-wrapper">
+                    <h2 class="section-title-with-dot">
+                        <span class="title-dot"></span>
+                        Sorti d'hôpital
+                    </h2>
+                    <div class="sommaire-box">
+                        <h3 class="sommaire-title">Sommaire</h3>
+                        <ul class="sommaire-list">
+                            <li><a href="#centre-sante-sexuelle-content" class="sommaire-link">Centre de santé
+                                    sexuelle</a></li>
+                            <li><a href="#unite-sterilise-content" class="sommaire-link">Unité de stérilisé</a></li>
+                        </ul>
+                    </div>
+                    <div class="section-content">
+                        <div id="centre-sante-sexuelle-content" class="content-item">
+                            <h3>Centre de santé sexuelle</h3>
+                            <p>Les services du centre de santé sexuelle pour le suivi post-partum et votre bien-être.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Conseil -->
+        <section id="conseil" class="section page-section" style="display: none;">
+            <div class="container">
+                <h2>Conseil</h2>
+                <div class="content-grid">
+                    <div class="content-card">
+                        <h3>Centre de santé sexuelle</h3>
+                        <p>Conseils et accompagnement au centre de santé sexuelle.</p>
+                    </div>
+                    <div class="content-card">
+                        <h3>Unité de stérilisé</h3>
+                        <p>Conseils et informations sur l'unité de stérilisation.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Urgence -->
+        <section id="urgence" class="section urgent-section">
+            <div class="container">
+                <h2>En cas d'urgence</h2>
+                <div class="urgent-content">
+                    <p>En cas d'urgence, contactez immédiatement les services d'urgence.</p>
+                    <a href="#contact" class="btn-urgent">Rendez-vous</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Contact -->
+        <section id="contact" class="section">
+            <div class="container">
+                <h2>Contact</h2>
+                <div class="contact-content">
+                    <p>Pour toute question ou pour prendre rendez-vous, n'hésitez pas à nous contacter.</p>
+                    <div class="contact-info">
+                        <p><strong>Téléphone :</strong> [Numéro à compléter]</p>
+                        <p><strong>Email :</strong> [Email à compléter]</p>
+                        <p><strong>Adresse :</strong> [Adresse à compléter]</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Maternité - Tous droits réservés</p>
+        </div>
+    </footer>
+
+    <script>
+        // Gestion de l'affichage des sections
+        document.addEventListener('DOMContentLoaded', function () {
+            const heroLinks = document.querySelectorAll('.hero-link');
+            const pageContents = document.querySelectorAll('.page-content');
+            const heroSection = document.getElementById('hero-section');
+
+            heroLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetContent = document.getElementById(targetId);
+
+                    // Masquer toutes les sections de contenu
+                    pageContents.forEach(content => {
+                        content.style.display = 'none';
+                    });
+
+                    // Afficher la section de contenu cible
+                    if (targetContent) {
+                        targetContent.style.display = 'block';
+                        // Afficher le premier contenu de la section
+                        const allContentItems = targetContent.querySelectorAll('.content-item');
+                        if (allContentItems.length > 0) {
+                            // Masquer tous les contenus
+                            allContentItems.forEach(item => {
+                                item.style.display = 'none';
+                            });
+                            // Afficher le premier
+                            allContentItems[0].style.display = 'block';
+                            // Activer le premier lien du sommaire
+                            const sommaireLinks = targetContent.querySelectorAll('.sommaire-link');
+                            sommaireLinks.forEach(l => l.classList.remove('active'));
+                            if (sommaireLinks[0]) {
+                                sommaireLinks[0].classList.add('active');
+                            }
+                        }
+                        // Scroll vers le contenu
+                        setTimeout(() => {
+                            targetContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 100);
+                    }
+                });
+            });
+
+            // Gestion du lien ACCUEIL
+            const accueilLink = document.querySelector('a[href="#accueil"]');
+            if (accueilLink) {
+                accueilLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    // Masquer toutes les sections de contenu
+                    pageContents.forEach(content => {
+                        content.style.display = 'none';
+                    });
+                    // Afficher la section accueil
+                    const accueilContent = document.getElementById('accueil');
+                    if (accueilContent) {
+                        accueilContent.style.display = 'block';
+                    }
+                    // Scroll vers le hero
+                    if (heroSection) {
+                        heroSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            }
+
+            // Gestion des liens du sommaire
+            const sommaireLinks = document.querySelectorAll('.sommaire-link');
+            sommaireLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetItem = document.getElementById(targetId);
+
+                    if (targetItem) {
+                        // Trouver la section parente
+                        const parentSection = targetItem.closest('.page-content');
+
+                        // Masquer tous les contenus de cette section
+                        parentSection.querySelectorAll('.content-item').forEach(item => {
+                            item.style.display = 'none';
+                        });
+
+                        // Afficher le contenu cible
+                        targetItem.style.display = 'block';
+
+                        // Mettre à jour les liens actifs du sommaire dans cette section
+                        parentSection.querySelectorAll('.sommaire-link').forEach(l => {
+                            l.classList.remove('active');
+                        });
+                        this.classList.add('active');
+
+                        // Scroll vers le contenu
+                        targetItem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            // Afficher le premier contenu par défaut quand une section est ouverte
+            pageContents.forEach(content => {
+                const firstItem = content.querySelector('.content-item');
+                if (firstItem && content.style.display !== 'none') {
+                    firstItem.style.display = 'block';
+                    const firstLink = content.querySelector('.sommaire-link');
+                    if (firstLink) {
+                        firstLink.classList.add('active');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
