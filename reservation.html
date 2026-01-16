@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Réservation - Maternité</title>
+</head>
+
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="nav-container">
+                <a href="index.html" class="nav-link">ACCUEIL</a>
+                <div class="urgence-contact">
+                    <a href="index.html#urgence" class="nav-link urgent">EN CAS D'URGENCE</a>
+                    <a href="reservation.html" class="nav-link reservation active">RÉSERVATION</a>
+                    <a href="index.html#contact" class="nav-link contact">CONTACT</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Section Réservation -->
+        <section id="reservation" class="section reservation-page">
+            <div class="container">
+                <div class="reservation-header">
+                    <h1>Prendre rendez-vous</h1>
+                    <p class="reservation-subtitle">De la grossesse à la sortie de l'hôpital</p>
+                </div>
+
+                <div class="reservation-wrapper">
+                    <!-- Étape 1 : Type de professionnel -->
+                    <div class="reservation-block" id="block-1" data-step="1">
+                        <h2 class="block-title">Médecin</h2>
+                        <div class="professional-type-nav">
+                            <div class="professional-type-links medecin" data-type="Médecin">
+                                <img src="images/grossesse.jpg" alt="Médecin">
+                                <div class="professional-type-link">Médecin</div>
+                            </div>
+                            <div class="professional-type-links psychologue" data-type="Psychologue">
+                                <img src="images/post_accouchement.png" alt="Psychologue">
+                                <div class="professional-type-link">Psychologue</div>
+                            </div>
+                            <div class="professional-type-links surveicologue" data-type="Surveicologue">
+                                <img src="images/accouchement.png" alt="Surveicologue">
+                                <div class="professional-type-link">Surveicologue</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Étape 2 : Choix du professionnel -->
+                    <div class="reservation-block hidden" id="block-2" data-step="2">
+                        <h2 class="block-title" id="block-2-title"></h2>
+                        <div class="doctors-grid" id="doctors-list">
+                            <div class="loading">Chargement...</div>
+                        </div>
+                    </div>
+
+                    <!-- Étape 3 : Type de rendez-vous -->
+                    <div class="reservation-block hidden" id="block-3" data-step="3">
+                        <h2 class="block-title">Prise de rendez-vous</h2>
+                        <div class="selected-professional-display" id="selected-professional-display-3"></div>
+                        <div class="appointment-type-grid">
+                            <div class="appointment-type-card" data-type="Couple">
+                                <h3>Rendez-vous en couple</h3>
+                                <p class="duration">Durée : 1h</p>
+                            </div>
+                            <div class="appointment-type-card" data-type="Grossesse">
+                                <h3>Rendez-vous femme enceinte</h3>
+                                <p class="duration">Durée : 45 min</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Étape 4 : Type de consultation (premier/suivi) -->
+                    <div class="reservation-block hidden" id="block-4" data-step="4">
+                        <h2 class="block-title">Type de rendez-vous</h2>
+                        <div class="selected-professional-display" id="selected-professional-display-4"></div>
+                        <div class="consultation-type-grid">
+                            <div class="consultation-type-card" data-consultation="premier">
+                                <h3>Premier rendez-vous</h3>
+                            </div>
+                            <div class="consultation-type-card" data-consultation="suivi">
+                                <h3>Rendez-vous de suivi</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Étape 5 : Date -->
+                    <div class="reservation-block hidden" id="block-5" data-step="5">
+                        <h2 class="block-title">Choisissez votre date de rendez-vous</h2>
+                        <div class="selected-professional-display" id="selected-professional-display-5"></div>
+                        <div class="date-picker-container">
+                            <input type="date" id="date-select" class="date-picker" min="">
+                        </div>
+                    </div>
+
+                    <!-- Étape 6 : Horaire -->
+                    <div class="reservation-block hidden" id="block-6" data-step="6">
+                        <h2 class="block-title">Horaire du rendez-vous</h2>
+                        <div class="selected-professional-display" id="selected-professional-display-6"></div>
+                        <div class="contact-info-box">
+                            <p><strong>Téléphone :</strong> (0) 77 83 32 45</p>
+                            <p><strong>E-mail :</strong> secretariatpsy-garnier@bativodenc.fr</p>
+                            <p><strong>Horaires du secrétariat :</strong> du lundi au samedi de 09:30 à 12h30 et de 14h
+                                à 18h</p>
+                        </div>
+                        <div class="time-slots-container">
+                            <div class="time-slot-section">
+                                <h4>Matinée</h4>
+                                <div class="time-slots-grid" id="morning-slots"></div>
+                            </div>
+                            <div class="time-slot-section">
+                                <h4>Après-midi</h4>
+                                <div class="time-slots-grid" id="afternoon-slots"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Étape 7 : Confirmation -->
+                    <div class="reservation-block hidden" id="block-7" data-step="7">
+                        <h2 class="block-title">Vous avez rendez-vous !</h2>
+                        <div class="reservation-confirmation" id="reservation-confirmation"></div>
+                        <div class="confirmation-actions">
+                            <a href="#" class="confirmation-link">Annuler ou décaler mon rendez-vous</a>
+                            <a href="#" class="confirmation-link">Quoi préparer pour mon rendez-vous</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Maternité - Tous droits réservés</p>
+        </div>
+    </footer>
+
+    <script src="reservation.js"></script>
+</body>
+
+</html>

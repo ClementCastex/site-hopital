@@ -7,6 +7,8 @@
 
 :root {
   --violet: #4d1494;
+  --bleu: #0c3eb4;
+  --jaune-survol: #fce562;
   --vert-survol: #68e2bd;
   --rouge-urgence: #ae172b;
   --rouge-survol-urgence: #d8001d;
@@ -86,6 +88,17 @@ header {
 .nav-link.contact:hover {
   background-color: var(--vert-survol);
   color: var(--noir);
+}
+
+.nav-link.reservation {
+  background-color: var(--vert-survol);
+  color: var(--violet);
+  font-weight: 700;
+}
+
+.nav-link.reservation:hover {
+  background-color: var(--violet);
+  color: var(--blanc);
 }
 /* Sections principales */
 main {
@@ -552,4 +565,881 @@ html {
 .nav-link:target,
 section:target {
   scroll-margin-top: 80px;
+}
+
+/* ============================================
+   Styles pour la réservation multi-étapes
+   ============================================ */
+
+.reservation-page {
+  min-height: calc(100vh - 200px);
+  padding: 3rem 2rem;
+  background: var(--beige-fond);
+}
+
+.reservation-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background-color: var(--blanc);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 3rem;
+}
+
+.reservation-header h1 {
+  font-size: 2.5rem;
+  color: var(--bleu);
+  margin-bottom: 1rem;
+  position: relative;
+  display: inline-block;
+}
+
+.reservation-header h1::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background-color: var(--jaune-survol);
+  border-radius: 2px;
+}
+
+.reservation-subtitle {
+  font-size: 1.2rem;
+  color: #666;
+  max-width: 600px;
+  margin: 1.5rem auto 0;
+  line-height: 1.6;
+}
+
+.step-description {
+  text-align: center;
+  color: #666;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+}
+
+.nav-link.active {
+  background-color: var(--bleu);
+  color: var(--blanc);
+}
+
+.nav-link.reservation {
+  background-color: var(--jaune-survol);
+  color: var(--bleu);
+  font-weight: 700;
+}
+
+.nav-link.reservation:hover {
+  background-color: var(--bleu);
+  color: var(--blanc);
+}
+
+.reservation-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Blocs de réservation progressifs */
+.reservation-block {
+  background-color: var(--blanc);
+  border-radius: 8px;
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  opacity: 1;
+  transform: translateY(0);
+  position: relative;
+}
+
+.reservation-block.hidden {
+  display: none;
+}
+
+.reservation-block.showing {
+  animation: slideIn 0.4s ease-out;
+  border-left-width: 6px;
+  box-shadow: 0 4px 12px rgba(12, 62, 180, 0.15);
+}
+
+.reservation-block.editable {
+  cursor: pointer;
+  position: relative;
+}
+
+.reservation-block.editable::after {
+  content: "Cliquer pour modifier";
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 0.75rem;
+  color: var(--bleu);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-weight: 600;
+  background-color: var(--jaune-survol);
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+}
+
+.reservation-block.editable:hover::after {
+  opacity: 1;
+}
+
+.reservation-block.editable:hover {
+  background-color: #f8f9ff;
+  border-left-color: var(--jaune-survol);
+  transform: translateX(5px);
+}
+
+.reservation-block.editable:not(.showing) {
+  opacity: 0.85;
+}
+
+.reservation-block.editable:not(.showing):hover {
+  opacity: 1;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.block-title {
+  font-size: 1.8rem;
+  color: var(--bleu);
+  margin-bottom: 2rem;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.block-title.selected {
+  color: var(--bleu);
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Indicateur d'étapes */
+.reservation-steps {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.reservation-steps::before {
+  content: "";
+  position: absolute;
+  top: 25px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #e0e0e0;
+  z-index: 0;
+}
+
+.step-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.step-indicator.active .step-number {
+  background-color: var(--violet);
+  color: var(--blanc);
+}
+
+.step-indicator.completed .step-number {
+  background-color: var(--vert-survol);
+  color: var(--violet);
+}
+
+.step-label {
+  font-size: 0.9rem;
+  color: #666;
+  text-align: center;
+  font-weight: 500;
+}
+
+.step-indicator.active .step-label {
+  color: var(--violet);
+  font-weight: 600;
+}
+
+/* Contenu des étapes */
+.reservation-step-content {
+  min-height: 400px;
+}
+
+.reservation-step-content h3 {
+  font-size: 1.8rem;
+  color: var(--violet);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Grille des médecins */
+.doctors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.doctor-card {
+  background-color: var(--bleu);
+  color: var(--blanc);
+  border: none;
+  border-radius: 8px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.doctor-card:hover,
+.doctor-card.selected {
+  background-color: var(--jaune-survol);
+  color: #000;
+  border: none;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(12, 62, 180, 0.2);
+}
+
+.doctor-card h4 {
+  font-size: 1.3rem;
+  color: inherit;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.doctor-card .specialty {
+  color: inherit;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.9;
+}
+
+/* Informations du médecin sélectionné */
+.selected-doctor-info {
+  background-color: var(--beige-menu);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border-left: 4px solid var(--violet);
+}
+
+.selected-doctor-info h4 {
+  color: var(--violet);
+  margin-bottom: 0.5rem;
+}
+
+.selected-doctor-info .specialty {
+  color: #666;
+}
+
+/* Filtre de date */
+.date-filter {
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.date-filter label {
+  font-weight: 600;
+  color: var(--violet);
+}
+
+.date-filter input {
+  padding: 0.5rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-family: var(--font-family);
+}
+
+.date-filter input:focus {
+  outline: none;
+  border-color: var(--violet);
+}
+
+/* Grille des disponibilités */
+.availabilities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.availability-group {
+  display: contents;
+}
+
+.availability-card {
+  background-color: var(--blanc);
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.availability-card:hover {
+  border-color: var(--vert-survol);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.availability-card.selected {
+  border-color: var(--violet);
+  background-color: #f0e8ff;
+}
+
+.availability-card .date {
+  font-weight: 600;
+  color: var(--violet);
+  margin-bottom: 0.5rem;
+}
+
+.availability-card .time {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.availability-card.unavailable {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Résumé de la réservation */
+.reservation-summary {
+  background-color: var(--beige-menu);
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border-left: 4px solid var(--violet);
+}
+
+.reservation-summary h4 {
+  color: var(--violet);
+  margin-bottom: 1rem;
+}
+
+.reservation-summary p {
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.reservation-summary strong {
+  color: var(--violet);
+}
+
+/* Formulaire de réservation */
+.reservation-form {
+  margin-top: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--violet);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-family: var(--font-family);
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--violet);
+}
+
+/* Actions des étapes */
+.step-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  gap: 1rem;
+}
+
+.btn-next,
+.btn-back,
+.btn-submit {
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: var(--font-family);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-next {
+  background-color: var(--violet);
+  color: var(--blanc);
+  margin-left: auto;
+}
+
+.btn-next:hover:not(:disabled) {
+  background-color: var(--vert-survol);
+  color: var(--violet);
+  transform: translateY(-2px);
+}
+
+.btn-next:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.btn-back {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.btn-back:hover {
+  background-color: #d0d0d0;
+}
+
+.btn-submit {
+  background-color: var(--vert-survol);
+  color: var(--violet);
+  margin-left: auto;
+}
+
+.btn-submit:hover {
+  background-color: var(--violet);
+  color: var(--blanc);
+  transform: translateY(-2px);
+}
+
+/* Résultat de la réservation */
+.reservation-result {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.reservation-result.success {
+  background-color: #d4edda;
+  border: 2px solid #28a745;
+  color: #155724;
+}
+
+.reservation-result.error {
+  background-color: #f8d7da;
+  border: 2px solid #dc3545;
+  color: #721c24;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-style: italic;
+}
+
+/* Styles pour les nouveaux blocs progressifs */
+.professional-type-nav {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.professional-type-links {
+  position: relative;
+  background-color: var(--blanc);
+  border-radius: 8px 0px 8px 0px;
+  overflow: visible;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.professional-type-links:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.professional-type-links img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  margin: 0px 0px -10px 0px;
+  border-radius: 8px 0px 0px 0px;
+}
+
+.professional-type-link {
+  display: block;
+  padding: 1.5rem;
+  background-color: var(--bleu);
+  color: var(--blanc);
+  border-radius: 8px 8px 8px 0px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  margin-top: -2px;
+  position: relative;
+  z-index: 1;
+  border: none;
+}
+
+.professional-type-links:hover .professional-type-link,
+.professional-type-links.selected .professional-type-link {
+  background-color: var(--jaune-survol);
+  color: #000;
+  border: none;
+}
+
+/* Styles pour appointment-type et consultation-type (garder le style simple) */
+.appointment-type-grid,
+.consultation-type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.appointment-type-card,
+.consultation-type-card {
+  background-color: var(--bleu);
+  color: var(--blanc);
+  border: none;
+  border-radius: 8px;
+  padding: 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  position: relative;
+}
+
+.appointment-type-card:hover,
+.consultation-type-card:hover,
+.appointment-type-card.selected,
+.consultation-type-card.selected {
+  background-color: var(--jaune-survol);
+  color: #000;
+  border: none;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(12, 62, 180, 0.2);
+}
+
+.appointment-type-card h3,
+.consultation-type-card h3 {
+  font-size: 1.3rem;
+  color: inherit;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.appointment-type-card .duration,
+.consultation-type-card .duration {
+  color: inherit;
+  opacity: 0.9;
+}
+
+.duration {
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.selected-professional-info {
+  background-color: #f0f4ff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border-left: 4px solid var(--bleu);
+  font-weight: 600;
+  color: var(--bleu);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.selected-professional-display {
+  margin-bottom: 2rem;
+}
+
+.selected-professional-display .selected-professional-info {
+  background-color: #f0f4ff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--bleu);
+  font-weight: 700;
+  color: var(--bleu);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.selected-professional-info h4 {
+  color: var(--bleu);
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.selected-professional-info .specialty {
+  color: #666;
+  text-transform: none;
+  font-weight: 400;
+}
+
+.date-picker-container {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.date-picker {
+  padding: 1rem 2rem;
+  border: 3px solid var(--bleu);
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-family: var(--font-family);
+  color: var(--bleu);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.date-picker:focus {
+  outline: none;
+  background-color: var(--jaune-survol);
+  border-color: var(--bleu);
+}
+
+.contact-info-box {
+  background-color: #f0f4ff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border-left: 4px solid var(--bleu);
+}
+
+.contact-info-box p {
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.contact-info-box strong {
+  color: var(--bleu);
+}
+
+.time-slots-container {
+  margin-top: 2rem;
+}
+
+.time-slot-section {
+  margin-bottom: 2rem;
+}
+
+.time-slot-section h4 {
+  color: var(--bleu);
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.time-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.time-slot {
+  background-color: var(--bleu);
+  color: var(--blanc);
+  border: none;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.time-slot:hover,
+.time-slot.selected {
+  background-color: var(--jaune-survol);
+  color: #000;
+  border: none;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(12, 62, 180, 0.2);
+}
+
+.time-slot.unavailable {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background-color: #ccc;
+  color: #666;
+  border: none;
+}
+
+.reservation-confirmation {
+  background-color: #f0f4ff;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border-left: 4px solid var(--bleu);
+  text-align: center;
+}
+
+.reservation-confirmation h3 {
+  color: var(--bleu);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.reservation-confirmation p {
+  color: #333;
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+.confirmation-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.confirmation-link {
+  color: var(--bleu);
+  text-decoration: underline;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.confirmation-link:hover {
+  color: var(--jaune-survol);
+}
+
+/* Responsive pour la réservation */
+@media (max-width: 768px) {
+  .reservation-page {
+    padding: 2rem 1rem;
+  }
+
+  .reservation-header h1 {
+    font-size: 2rem;
+  }
+
+  .reservation-subtitle {
+    font-size: 1rem;
+  }
+
+  .reservation-block {
+    padding: 1.5rem;
+  }
+
+  .professional-type-nav {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .professional-type-links img {
+    height: 180px;
+  }
+
+  .appointment-type-grid,
+  .consultation-type-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .time-slots-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+
+  .reservation-steps {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .reservation-steps::before {
+    display: none;
+  }
+
+  .step-indicator {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+
+  .step-number {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+    margin-bottom: 0;
+  }
+
+  .doctors-grid,
+  .availabilities-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .step-actions {
+    flex-direction: column;
+  }
+
+  .btn-next,
+  .btn-back,
+  .btn-submit {
+    width: 100%;
+  }
 }

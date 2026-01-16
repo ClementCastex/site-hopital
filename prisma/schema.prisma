@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Doctor {
+  id          Int      @id @default(autoincrement())
+  firstName   String
+  lastName    String
+  specialty   String
+  type        String   // "Médecin", "Psychologue", "Surveicologue"
+  email       String?
+  phone       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  availabilities Availability[]
+  
+  @@map("doctors")
+}
+
+model Availability {
+  id          Int      @id @default(autoincrement())
+  doctorId    Int
+  date        String   // Format: "YYYY-MM-DD"
+  startTime   String   // Format: "HH:MM"
+  endTime     String   // Format: "HH:MM"
+  appointmentType String? // "Couple" (1h) ou "Grossesse" (45min)
+  isAvailable Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  doctor      Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  
+  @@map("availabilities")
+}
+
+model Reservation {
+  id          Int      @id @default(autoincrement())
+  doctorId    Int
+  availabilityId Int
+  patientName String
+  patientEmail String?
+  patientPhone String?
+  date        String
+  time        String
+  appointmentType String // "Couple" ou "Grossesse"
+  status      String   @default("pending") // pending, confirmed, cancelled
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("reservations")
+}

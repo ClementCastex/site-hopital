@@ -1,0 +1,25 @@
+{
+  "name": "site-hopital-reservation",
+  "version": "1.0.0",
+  "description": "Système de réservation multi-étapes pour site hôpital",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "check": "node check-setup.js",
+    "setup": "npm run prisma:generate && npm run prisma:push && npm run prisma:seed",
+    "prisma:generate": "prisma generate",
+    "prisma:push": "prisma db push",
+    "prisma:seed": "node prisma/seed.js"
+  },
+  "keywords": ["hospital", "reservation", "maternity", "prisma", "express"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.7.1",
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "prisma": "^5.7.1"
+  }
+}
