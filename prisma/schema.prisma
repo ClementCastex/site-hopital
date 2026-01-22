@@ -21,6 +21,7 @@ model Doctor {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   availabilities Availability[]
+  reservations Reservation[]
   
   @@map("doctors")
 }
@@ -33,6 +34,7 @@ model Availability {
   endTime     String   // Format: "HH:MM"
   appointmentType String? // "Couple" (1h) ou "Grossesse" (45min)
   isAvailable Boolean  @default(true)
+  isPresent   Boolean  @default(true) // Le médecin est présent à ce créneau
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   doctor      Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
@@ -53,6 +55,7 @@ model Reservation {
   status      String   @default("pending") // pending, confirmed, cancelled
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  doctor      Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
   
   @@map("reservations")
 }

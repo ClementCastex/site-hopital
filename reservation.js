@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Initialiser la réservation
 function initializeReservation() {
     showBlock(1);
+    setupReservationForm();
 }
 
 // Configurer les écouteurs d'événements
@@ -571,25 +572,87 @@ function selectTimeSlot(slotId) {
         // Mettre à jour l'affichage
         updateBlockSelections();
         
-        // Créer la réservation
-        createReservation();
+        // Afficher le formulaire de confirmation
+        showBlock(7);
+        displayReservationSummaryForm();
     }
 }
 
-// Créer la réservation
-async function createReservation() {
+// Afficher le résumé dans le formulaire
+function displayReservationSummaryForm() {
+    const doctor = reservationState.selectedDoctor;
+    const availability = reservationState.selectedAvailability;
+    const date = new Date(reservationState.selectedDate + 'T00:00:00');
+    
+    const dayNames = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+    const monthNames = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+    
+    const dayName = dayNames[date.getDay()];
+    const day = date.getDate();
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+    
+    const appointmentTypeText = reservationState.selectedAppointmentType === 'Couple' 
+        ? 'en couple' 
+        : 'femme enceinte';
+    
+    const summaryDiv = document.getElementById('reservation-summary-form');
+    summaryDiv.innerHTML = `
+        <div class="reservation-summary-box">
+            <h4>Résumé de votre réservation</h4>
+            <p><strong>Professionnel :</strong> ${doctor.firstName} ${doctor.lastName} (${doctor.specialty})</p>
+            <p><strong>Type :</strong> Rendez-vous ${appointmentTypeText}</p>
+            <p><strong>Date :</strong> ${dayName} ${day} ${month} ${year}</p>
+            <p><strong>Heure :</strong> ${availability.startTime} - ${availability.endTime}</p>
+        </div>
+    `;
+    
+    // Mettre à jour l'affichage du professionnel
+    const displayDiv = document.getElementById('selected-professional-display-7');
+    if (displayDiv) {
+        displayDiv.innerHTML = `<div class="selected-professional-info">${doctor.firstName} ${doctor.lastName}</div>`;
+    }
+}
+
+// Configurer le formulaire de réservation
+function setupReservationForm() {
+    const form = document.getElementById('reservation-form');
+    if (form) {
+        form.addEventListener('submit', handleReservationSubmit);
+    }
+    
+    const backButton = document.getElementById('btn-back-step7');
+    if (backButton) {
+        backButton.addEventListener('click', () => goToBlock(6));
+    }
+}
+
+// Gérer la soumission du formulaire
+async function handleReservationSubmit(e) {
+    e.preventDefault();
+    
+    const form = e.target;
+    const formData = new FormData(form);
+    const submitButton = document.getElementById('btn-submit-reservation');
+    const resultDiv = document.getElementById('reservation-result');
+    
+    // Désactiver le bouton
+    submitButton.disabled = true;
+    submitButton.textContent = 'Traitement...';
+    
+    // Préparer les données
+    const reservationData = {
+        doctorId: reservationState.selectedDoctor.id,
+        availabilityId: reservationState.selectedAvailability.id,
+        patientName: formData.get('patientName'),
+        patientEmail: formData.get('patientEmail') || null,
+        patientPhone: formData.get('patientPhone'),
+        date: reservationState.selectedDate,
+        time: reservationState.selectedAvailability.startTime,
+        appointmentType: reservationState.selectedAppointmentType
+    };
+    
     try {
-        const reservationData = {
-            doctorId: reservationState.selectedDoctor.id,
-            availabilityId: reservationState.selectedAvailability.id,
-            patientName: 'Patient', // À remplacer par un formulaire si nécessaire
-            patientEmail: null,
-            patientPhone: null,
-            date: reservationState.selectedDate,
-            time: reservationState.selectedAvailability.startTime,
-            appointmentType: reservationState.selectedAppointmentType
-        };
-        
         const response = await fetch(`${API_BASE_URL}/reservations`, {
             method: 'POST',
             headers: {
@@ -605,15 +668,29 @@ async function createReservation() {
         
         const reservation = await response.json();
         
+        // Masquer le formulaire
+        form.style.display = 'none';
+        
         // Afficher la confirmation
         displayConfirmation(reservation);
         
-        // Afficher le bloc de confirmation
-        showBlock(7);
+        // Mettre à jour l'état pour refléter que le créneau est réservé
+        if (reservationState.selectedAvailability) {
+            reservationState.selectedAvailability.isAvailable = false;
+        }
         
     } catch (error) {
         console.error('Error creating reservation:', error);
-        alert('Erreur : ' + error.message);
+        resultDiv.style.display = 'block';
+        resultDiv.className = 'reservation-result error';
+        resultDiv.innerHTML = `
+            <h4>❌ Erreur</h4>
+            <p>${error.message}</p>
+            <p>Veuillez réessayer ou choisir un autre créneau.</p>
+        `;
+        
+        submitButton.disabled = false;
+        submitButton.textContent = 'Confirmer la réservation';
     }
 }
 
@@ -635,8 +712,25 @@ function displayConfirmation(reservation) {
         ? 'en couple' 
         : 'femme enceinte';
     
-    const confirmationDiv = document.getElementById('reservation-confirmation');
-    confirmationDiv.innerHTML = `
-        <h3>Vous avez rendez-vous ${appointmentTypeText} avec ${doctor.firstName} ${doctor.lastName}, ${doctor.specialty.toLowerCase()} le ${dayName} ${day} ${month} à ${availability.startTime}.</h3>
+    const resultDiv = document.getElementById('reservation-result');
+    resultDiv.style.display = 'block';
+    resultDiv.className = 'reservation-result success';
+    
+    // Créer le lien vers le dashboard avec les paramètres pour pré-sélectionner le professionnel et la date
+    const dashboardUrl = `dashboard.html?doctorId=${doctor.id}&date=${reservationState.selectedDate}`;
+    
+    resultDiv.innerHTML = `
+        <h3>✅ Vous avez rendez-vous !</h3>
+        <p>Vous avez rendez-vous ${appointmentTypeText} avec ${doctor.firstName} ${doctor.lastName}, ${doctor.specialty.toLowerCase()} le ${dayName} ${day} ${month} à ${availability.startTime}.</p>
+        <p><strong>Numéro de réservation :</strong> #${reservation.id}</p>
+        <div class="confirmation-actions">
+            <a href="${dashboardUrl}" class="confirmation-link">Voir dans le tableau de bord</a>
+            <a href="reservation.html" class="confirmation-link">Prendre un autre rendez-vous</a>
+        </div>
     `;
+    
+    // Actualiser les statistiques du dashboard si on y est
+    if (typeof loadStats === 'function') {
+        loadStats();
+    }
 }

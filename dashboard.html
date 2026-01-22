@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Tableau de bord - Gestion des réservations</title>
+</head>
+
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="nav-container">
+                <a href="index.html" class="nav-link">ACCUEIL</a>
+                <div class="urgence-contact">
+                    <a href="index.html#urgence" class="nav-link urgent">EN CAS D'URGENCE</a>
+                    <a href="reservation.html" class="nav-link reservation">RÉSERVATION</a>
+                    <a href="dashboard.html" class="nav-link contact active">TABLEAU DE BORD</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="section dashboard-page">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h1>Tableau de bord</h1>
+                    <div class="dashboard-professional" id="dashboard-professional">
+                        <select id="select-professional" class="professional-select">
+                            <option value="">Tous les professionnels</option>
+                        </select>
+                    </div>
+                    <!-- Statistiques rapides -->
+                    <div class="dashboard-stats" id="dashboard-stats">
+                        <div class="stat-card">
+                            <h3>Aujourd'hui</h3>
+                            <div class="stat-number" id="stat-today">-</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Ce mois</h3>
+                            <div class="stat-number" id="stat-month">-</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>En attente</h3>
+                            <div class="stat-number" id="stat-pending">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-wrapper">
+                    <!-- Onglets -->
+                    <div class="dashboard-tabs">
+                        <button class="tab-button active" data-tab="reservations">Mes rendez-vous</button>
+                        <button class="tab-button" data-tab="presence">Gérer ma présence</button>
+                        <button class="tab-button" data-tab="availabilities">Générer les créneaux</button>
+                    </div>
+
+                    <!-- Contenu : Réservations avec calendrier -->
+                    <div class="tab-content active" id="tab-reservations">
+                        <div class="calendar-container" id="calendar-container">
+                            <div class="calendar-header">
+                                <button class="calendar-nav-btn" id="prev-month" aria-label="Mois précédent">←</button>
+                                <h2 class="calendar-month-year" id="calendar-month-year">janvier 2026</h2>
+                                <button class="calendar-nav-btn" id="next-month" aria-label="Mois suivant">→</button>
+                            </div>
+                            <div class="calendar-grid" id="calendar-grid">
+                                <!-- Les jours seront générés dynamiquement -->
+                            </div>
+                        </div>
+                        
+                        <!-- Bloc d'affichage des rendez-vous pour une date sélectionnée -->
+                        <div class="appointments-block hidden" id="appointments-block">
+                            <div class="appointments-header">
+                                <h3 class="appointments-date" id="appointments-date">Mercredi 7 janvier 2026</h3>
+                                <button class="btn-close-appointments" id="btn-close-appointments" aria-label="Fermer">
+                                    ✕
+                                </button>
+                            </div>
+                            <div class="appointments-list" id="appointments-list">
+                                <!-- Les rendez-vous seront affichés ici -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contenu : Gérer la présence -->
+                    <div class="tab-content" id="tab-presence">
+                        <div class="presence-management">
+                            <h3>Gérer ma présence</h3>
+                            <p class="presence-description">Indiquez vos jours de présence pour que les patients puissent voir vos créneaux disponibles.</p>
+                            
+                            <div class="presence-form">
+                                <div class="form-group">
+                                    <label for="select-doctor-presence">Professionnel :</label>
+                                    <select id="select-doctor-presence" class="form-select">
+                                        <option value="">Sélectionner un professionnel</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="presence-date">Date :</label>
+                                    <input type="date" id="presence-date" class="form-input" min="">
+                                </div>
+                                <div class="form-group">
+                                    <label>Présence :</label>
+                                    <div class="presence-options">
+                                        <button type="button" class="btn-presence btn-present" id="btn-mark-present">
+                                            <span class="presence-icon">✓</span>
+                                            <span>Je serai présent</span>
+                                        </button>
+                                        <button type="button" class="btn-presence btn-absent" id="btn-mark-absent">
+                                            <span class="presence-icon">✗</span>
+                                            <span>Je serai absent</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Liste des créneaux pour la date sélectionnée -->
+                            <div class="presence-slots-container hidden" id="presence-slots-container">
+                                <h4>Créneaux du <span id="presence-slots-date"></span></h4>
+                                <div class="presence-slots-grid" id="presence-slots-grid">
+                                    <!-- Les créneaux seront affichés ici -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contenu : Gérer les disponibilités -->
+                    <div class="tab-content" id="tab-availabilities">
+                        <div class="availability-management">
+                            <h3>Générer les créneaux</h3>
+                            <p class="availability-description">Créez les créneaux horaires pour une date donnée. Les créneaux seront marqués comme disponibles et vous présents par défaut.</p>
+                            <div class="availability-form">
+                                <div class="form-group">
+                                    <label for="select-doctor-availability">Professionnel :</label>
+                                    <select id="select-doctor-availability" class="form-select">
+                                        <option value="">Sélectionner un professionnel</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="availability-date">Date :</label>
+                                    <input type="date" id="availability-date" class="form-input" min="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="slots-per-day">Nombre de créneaux par jour :</label>
+                                    <input type="number" id="slots-per-day" class="form-input" min="1" value="3" placeholder="Ex: 3">
+                                </div>
+                                <div class="form-group">
+                                    <label>Type de créneaux :</label>
+                                    <div class="slot-types">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="slot-couple" checked>
+                                            <span>Couple (1h)</span>
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="slot-grossesse" checked>
+                                            <span>Femme enceinte (45min)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Horaires de travail :</label>
+                                    <div class="time-range">
+                                        <input type="time" id="start-time" class="form-input" value="09:00">
+                                        <span>à</span>
+                                        <input type="time" id="end-time" class="form-input" value="18:00">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="pause-start">Pause (optionnel) :</label>
+                                    <div class="time-range">
+                                        <input type="time" id="pause-start" class="form-input" placeholder="12:00">
+                                        <span>à</span>
+                                        <input type="time" id="pause-end" class="form-input" placeholder="13:00">
+                                    </div>
+                                </div>
+                                <button class="btn-generate" id="btn-generate-availability">Générer les créneaux</button>
+                                <div class="form-message" id="availability-message"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Toast notifications -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Maternité - Tous droits réservés</p>
+        </div>
+    </footer>
+
+    <script src="dashboard.js"></script>
+</body>
+
+</html>
